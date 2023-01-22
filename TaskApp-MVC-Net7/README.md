@@ -85,6 +85,46 @@ Es importante que contemos con una cuenta de Azure, si no la tienes puedes crear
         </a>
 		```
 	
+
+# Internacionalización - IStringLocalizer
+
+Nos permite tener una aplicación multilenguaje / multiples idiomas, para ello debemos de seguir los siguientes pasos:
+
+1. Configurar la localización en el archivo Startup.cs
+	``` csharp
+		builder.Services.AddLocalization();
+	```
+2. Configurar en el controlador el IStringLocalizer, inyectarlo desde el constructor
+
+	``` csharp
+		private readonly IStringLocalizer<HomeController> _localizer;
+		public HomeController(IStringLocalizer<HomeController> localizer)
+		{
+			_localizer = localizer;
+		}
+	```
+
+	3. En el controlador podemos usar a modo de ejemplo lo siguiente:
+	``` csharp
+		public IActionResult Index()
+        {
+            ViewBag.Saludo = localizer["Buenos días"];
+            return View();
+        }
+	```
+
+	4. En la vista podemos usar a modo de ejemplo lo siguiente:
+	``` cshtml
+		@{
+			ViewData["Title"] = "Home Page";
+		}
+
+		<div class="text-center">
+			<h1 class="display-4">@ViewBag.Saludo</h1>
+		</div>
+	```
+	
+
  
 	
 
