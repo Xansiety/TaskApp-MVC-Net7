@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskApp_MVC_Net7;
 
@@ -11,9 +12,11 @@ using TaskApp_MVC_Net7;
 namespace TaskAppMVCNet7.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230122194134_AdminRol")]
+    partial class AdminRol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -296,12 +299,7 @@ namespace TaskAppMVCNet7.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("UsuarioCreacionId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioCreacionId");
 
                     b.ToTable("Tareas");
                 });
@@ -377,15 +375,6 @@ namespace TaskAppMVCNet7.Migrations
                         .IsRequired();
 
                     b.Navigation("Tarea");
-                });
-
-            modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.Tarea", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UsuarioCreacion")
-                        .WithMany()
-                        .HasForeignKey("UsuarioCreacionId");
-
-                    b.Navigation("UsuarioCreacion");
                 });
 
             modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.Tarea", b =>

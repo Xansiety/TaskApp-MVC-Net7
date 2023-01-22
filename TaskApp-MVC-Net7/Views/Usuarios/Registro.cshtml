@@ -1,0 +1,36 @@
+﻿@model TaskApp_MVC_Net7.Models.Auth.RegistroViewModel
+
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<h1>Registrarse</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Registro">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" autocomplete="off" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <button class="btn btn-outline-primary">Registrarme</button>
+            <a class="btn btn-success" asp-action="Login">Iniciar Sesión</a>
+
+            <a asp-action="LoginExterno" asp-route-proveedor="Microsoft" class="btn btn-primary btn-block">
+                <i class="fab fa-microsoft"></i> Login con Microsoft
+            </a>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

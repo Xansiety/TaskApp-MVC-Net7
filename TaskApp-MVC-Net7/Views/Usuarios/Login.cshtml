@@ -1,0 +1,49 @@
+﻿@model TaskApp_MVC_Net7.Models.Auth.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Iniciar sesión</h1>
+
+@if (ViewData.Keys.Contains("mensaje"))
+{
+    <p class="text-danger">
+        @ViewData["mensaje"]
+    </p>
+}
+
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Login" method="POST">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" autocomplete="off" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="Recordarme" />
+                <label class="form-check-label" asp-for="Recordarme"></label>
+            </div> 
+            <button class="btn btn-outline-primary">Iniciar Sesión</button>
+            <a class="btn btn-success" asp-action="Registro">Registrarme</a>
+
+             <a asp-action="LoginExterno" asp-route-proveedor="Microsoft" class="btn btn-primary btn-block">
+                <i class="fab fa-microsoft"></i> Login con Microsoft
+            </a>
+            
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
