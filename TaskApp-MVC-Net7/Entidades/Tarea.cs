@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace TaskApp_MVC_Net7.Entidades
 {
@@ -13,10 +14,11 @@ namespace TaskApp_MVC_Net7.Entidades
         public string Descripcion { get; set; }
         public int Orden { get; set; }
         public DateTime FechaCreacion { get; set; }
-
+        public string UsuarioCreacionId { get; set; }
+        
         // Propiedades de navegación (relación 1 a muchos)
+        public IdentityUser UsuarioCreacion { get; set; }
         public List<Paso> Pasos { get; set; }
-        public List<ArchivoAjunto> ArchivoAjuntos { get; set; }
-
+        public List<ArchivoAjunto> ArchivoAjuntos { get; set; } 
     }
 }
