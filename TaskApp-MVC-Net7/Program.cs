@@ -24,7 +24,10 @@ builder.Services.AddControllersWithViews(opciones =>
 {
     opciones.Filters.Add(new AuthorizeFilter(politicaAutenticados));
 }).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                .AddDataAnnotationsLocalization();
+   .AddDataAnnotationsLocalization(opciones =>
+   {
+       opciones.DataAnnotationLocalizerProvider = (_, factoria) => factoria.Create(typeof(RecursoCompartido)); // utilizar un único archivo de recursos
+   });
 
 // DB Service
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
