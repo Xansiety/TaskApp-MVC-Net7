@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TaskApp_MVC_Net7.Models.Auth
+namespace TaskApp.Models.Auth
 {
     public class RegistroViewModel
     {

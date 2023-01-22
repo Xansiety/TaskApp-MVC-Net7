@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace TaskApp_MVC_Net7.Entidades
+namespace TaskApp.Entidades
 {
     public class Tarea
     {

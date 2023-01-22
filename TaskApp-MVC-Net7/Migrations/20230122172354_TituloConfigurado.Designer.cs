@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TaskApp_MVC_Net7;
+using TaskApp;
 
 #nullable disable
 
@@ -25,7 +25,7 @@ namespace TaskAppMVCNet7.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.Tarea", b =>
+            modelBuilder.Entity("TaskApp.Entidades.Tarea", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

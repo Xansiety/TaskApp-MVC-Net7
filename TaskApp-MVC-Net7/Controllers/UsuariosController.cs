@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using TaskApp_MVC_Net7.Models;
-using TaskApp_MVC_Net7.Models.Auth;
-using TaskApp_MVC_Net7.Servicios.Constantes.Auth;
+using TaskApp.Models;
+using TaskApp.Models.Auth;
+using TaskApp.Servicios.Constantes.Auth;
 
-namespace TaskApp_MVC_Net7.Controllers
+namespace TaskApp.Controllers
 {
     public class UsuariosController : Controller
     {

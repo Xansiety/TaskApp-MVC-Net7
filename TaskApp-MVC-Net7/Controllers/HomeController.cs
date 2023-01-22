@@ -1,20 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Diagnostics;
-using TaskApp_MVC_Net7.Models;
+using TaskApp.Models;
 
-namespace TaskApp_MVC_Net7.Controllers
+namespace TaskApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IStringLocalizer<HomeController> localizer;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IStringLocalizer<HomeController> localizer )
         {
             _logger = logger;
+            this.localizer = localizer;
         }
 
         public IActionResult Index()
         {
+            ViewBag.Saludo = localizer["Buenos días"];
             return View();
         }
 

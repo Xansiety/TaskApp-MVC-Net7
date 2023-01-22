@@ -1,4 +1,4 @@
-﻿namespace TaskApp_MVC_Net7.Entidades
+﻿namespace TaskApp.Entidades
 {
     public class Paso
     {
