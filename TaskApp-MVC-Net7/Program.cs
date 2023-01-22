@@ -1,12 +1,26 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TaskApp_MVC_Net7;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
+// Política de autentificación | Filtro global
+var politicaAutenticados = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser()
+    .Build();
+
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+// se añade la política de autentificación a todos los controladores
+builder.Services.AddControllersWithViews(opciones =>
+{
+    opciones.Filters.Add(new AuthorizeFilter(politicaAutenticados));
+}); 
 
 // DB Service
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
