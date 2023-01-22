@@ -123,7 +123,34 @@ Nos permite tener una aplicación multilenguaje / multiples idiomas, para ello d
 			<h1 class="display-4">@ViewBag.Saludo</h1>
 		</div>
 	```
+
+	5. Agregar diferentes culturas
 	
+	Podemos añadir nuevas culturas en el archivo Program 
+	
+	``` csharp
+		var culturasUISoportadas = new[] { "es", "en" };
+		app.UseRequestLocalization(opciones =>
+		{
+			opciones.DefaultRequestCulture = new RequestCulture("es");
+			opciones.SupportedUICultures = culturasUISoportadas.Select(cultura => new CultureInfo(cultura)).ToList(); 
+		});
+	```
+
+	6. Agregar los archivos de recursos
+	Crear a nivel proyecto una carpeta llamada resources
+	 
+		1. Crear un archivo de recursos para cada cultura, por ejemplo: Resources.en.resx, Name.Lan.resx
+			Se debe colocar en keys el texto en español, y en el value el texto en la cultura correspondiente
+		
+	7. Registrar los archivos de cultura
+	1. En el archivo Startup.cs, agregar la siguiente configuración
+		``` csharp
+			builder.Services.AddLocalization(opciones =>
+			{
+				opciones.ResourcesPath = "Recursos";
+			});
+		```
 
  
 	

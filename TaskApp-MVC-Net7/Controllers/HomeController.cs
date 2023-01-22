@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System.Diagnostics;
-using TaskApp_MVC_Net7.Models;
+using TaskApp.Models;
 
-namespace TaskApp_MVC_Net7.Controllers
+namespace TaskApp.Controllers
 {
     public class HomeController : Controller
     {

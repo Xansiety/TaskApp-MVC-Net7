@@ -1,4 +1,4 @@
-namespace TaskApp_MVC_Net7.Models
+namespace TaskApp.Models
 {
     public class ErrorViewModel
     {

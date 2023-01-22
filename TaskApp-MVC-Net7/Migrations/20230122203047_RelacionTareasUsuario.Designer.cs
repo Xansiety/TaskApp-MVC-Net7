@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TaskApp_MVC_Net7;
+using TaskApp;
 
 #nullable disable
 
@@ -223,7 +223,7 @@ namespace TaskAppMVCNet7.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.ArchivoAjunto", b =>
+            modelBuilder.Entity("TaskApp.Entidades.ArchivoAjunto", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -252,7 +252,7 @@ namespace TaskAppMVCNet7.Migrations
                     b.ToTable("ArchivoAjuntos");
                 });
 
-            modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.Paso", b =>
+            modelBuilder.Entity("TaskApp.Entidades.Paso", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -277,7 +277,7 @@ namespace TaskAppMVCNet7.Migrations
                     b.ToTable("Pasos");
                 });
 
-            modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.Tarea", b =>
+            modelBuilder.Entity("TaskApp.Entidades.Tarea", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -360,9 +360,9 @@ namespace TaskAppMVCNet7.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.ArchivoAjunto", b =>
+            modelBuilder.Entity("TaskApp.Entidades.ArchivoAjunto", b =>
                 {
-                    b.HasOne("TaskApp_MVC_Net7.Entidades.Tarea", "Tarea")
+                    b.HasOne("TaskApp.Entidades.Tarea", "Tarea")
                         .WithMany("ArchivoAjuntos")
                         .HasForeignKey("TareaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -371,9 +371,9 @@ namespace TaskAppMVCNet7.Migrations
                     b.Navigation("Tarea");
                 });
 
-            modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.Paso", b =>
+            modelBuilder.Entity("TaskApp.Entidades.Paso", b =>
                 {
-                    b.HasOne("TaskApp_MVC_Net7.Entidades.Tarea", "Tarea")
+                    b.HasOne("TaskApp.Entidades.Tarea", "Tarea")
                         .WithMany("Pasos")
                         .HasForeignKey("TareaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -382,7 +382,7 @@ namespace TaskAppMVCNet7.Migrations
                     b.Navigation("Tarea");
                 });
 
-            modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.Tarea", b =>
+            modelBuilder.Entity("TaskApp.Entidades.Tarea", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UsuarioCreacion")
                         .WithMany()
@@ -391,7 +391,7 @@ namespace TaskAppMVCNet7.Migrations
                     b.Navigation("UsuarioCreacion");
                 });
 
-            modelBuilder.Entity("TaskApp_MVC_Net7.Entidades.Tarea", b =>
+            modelBuilder.Entity("TaskApp.Entidades.Tarea", b =>
                 {
                     b.Navigation("ArchivoAjuntos");
 

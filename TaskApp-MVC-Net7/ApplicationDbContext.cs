@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TaskApp_MVC_Net7.Entidades;
+using TaskApp.Entidades;
 
-namespace TaskApp_MVC_Net7
+namespace TaskApp
 {
     public class ApplicationDbContext : IdentityDbContext
     {
