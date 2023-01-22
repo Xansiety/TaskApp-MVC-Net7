@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using TaskApp;
+using TaskApp.Servicios.Constantes.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,12 +65,13 @@ builder.Services.AddLocalization(opciones =>
 
 var app = builder.Build();
 
-var culturasUISoportadas = new[] { "es", "en" };
+//var culturasUISoportadas = new[] { "es", "en" };
+
   
 app.UseRequestLocalization(opciones =>
 {
     opciones.DefaultRequestCulture = new RequestCulture("es");
-    opciones.SupportedUICultures = culturasUISoportadas.Select(cultura => new CultureInfo(cultura)).ToList();
+    opciones.SupportedUICultures = Constantes.CulturasUISoportadas.Select(cultura => new CultureInfo(cultura.Value)).ToList();
 });
 
 
