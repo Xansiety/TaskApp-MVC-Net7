@@ -20,14 +20,20 @@ var politicaAutenticados = new AuthorizationPolicyBuilder()
 builder.Services.AddControllersWithViews(opciones =>
 {
     opciones.Filters.Add(new AuthorizeFilter(politicaAutenticados));
-}); 
+});
 
 // DB Service
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer("name=DefaultConnection"));
 
 // Habilitar los servicios de autentificación
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication()
+    .AddMicrosoftAccount(opciones =>
+    {
+        opciones.ClientId = builder.Configuration["MicrosoftClientId"];
+        opciones.ClientSecret = builder.Configuration["MicrosoftSecretId"];
+    }
+    );
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(opciones =>
 {
@@ -39,7 +45,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(opciones =>
 // Trabajar con mis propias vistas de autentificación
 builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opciones =>
 {
-    opciones.LoginPath = "/usuarios/login"; 
+    opciones.LoginPath = "/usuarios/login";
     opciones.AccessDeniedPath = "/usuarios/login";
 });
 
