@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TaskApp_MVC_Net7.Models.Auth;
@@ -17,10 +18,8 @@ namespace TaskApp_MVC_Net7.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Registro()
-        {
-            return View();
-        }
+        public IActionResult Registro() => View();
+         
 
         [HttpPost]
         [AllowAnonymous]
@@ -39,6 +38,34 @@ namespace TaskApp_MVC_Net7.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return View(modelo);
+        }
+
+
+        [AllowAnonymous]
+        public IActionResult Login() => View();
+
+        [HttpPost]
+        [AllowAnonymous]
+
+        public async Task<IActionResult> Login(LoginViewModel modelo)
+        {
+            if (!ModelState.IsValid) return View(modelo);
+
+            var resultado = await signInManager.PasswordSignInAsync( modelo.Email, modelo.Password, modelo.Recordarme, lockoutOnFailure: false );
+
+            if(resultado.Succeeded) return RedirectToAction("Index", "Home");
+
+            ModelState.AddModelError(string.Empty, "Datos incorrectos");
+
+            return View(modelo);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return RedirectToAction("Login", "Usuarios");
         }
 
     }
