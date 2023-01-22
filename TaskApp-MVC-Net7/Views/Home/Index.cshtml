@@ -9,9 +9,19 @@
     <h1 class="display-4">@localizer["Bienvenido"]</h1>
     <p>
         @localizer["Aprende más sobre"] <a href="https://docs.microsoft.com/aspnet/core">@localizer["ASP.NET Core"]</a>
-    </p> 
+    </p>
 </div>
 
 <div>
     <h3> @ViewBag.Saludo, Xansiety</h3>
 </div>
+
+
+<button onclick="mostrarError()">
+    Mostrar mensaje de error
+</button>
+
+
+@section Scripts {
+    <script src="~/js/Utilidades.js"></script>
+}
