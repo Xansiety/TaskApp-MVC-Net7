@@ -12,10 +12,11 @@
 </div>
 
 <div id="contenedor-listado-tareas" class="text-center">
-    <div class="text-start" data-bind="foreach: tareas">
+    <div id="reordenable" class="text-start" data-bind="foreach: tareas">
         <div name="tarea" class="border mb-2 p-2" style="cursor: pointer">
             <div data-bind="text: titulo, hidden: esNuevo " class="fw-bold"></div>
-            <input type="text" name="titulo-tarea" autocomplete="off" data-bind="value: titulo, visible: esNuevo, event: { focusout: manejarFocusOutTituloTarea}" />
+            <input type="text" name="titulo-tarea" autocomplete="off" data-bind="value: titulo, visible: esNuevo,
+                attr: {'data-id': id}, event: { focusout: manejarFocusOutTituloTarea}" />
         </div>
     </div>
 
@@ -33,32 +34,33 @@
 
 @section Scripts {
 
+    <script asp-asp-append-version="true" src="~/js/Utilidades.js"></script>
     <script asp-asp-append-version="true" src="~/js/Tareas.js"></script>
-    
+
     <script>
 
         const UrlTareas = '/api/Tareas';
 
         function tareasListadoViewModelFn() {
             var _self = this;
-            _self.tareas = ko.observableArray([ 
+            _self.tareas = ko.observableArray([
             ]); // Iniciar el array de tareas en un valor observable
-            _self.cargando= ko.observable(true);
+            _self.cargando = ko.observable(true);
 
-            _self.noHayTareas = ko.pureComputed(function() {
-                if(_self.cargando()) {
+            _self.noHayTareas = ko.pureComputed(function () {
+                if (_self.cargando()) {
                     return false;
-                }                   
+                }
                 return _self.tareas().length === 0;
             })
-        } 
+        }
 
 
-        function tareaElementoListadoViewModel({id, titulo}){
+        function tareaElementoListadoViewModel({ id, titulo }) {
             var _self = this;
             _self.id = ko.observable(id);
             _self.titulo = ko.observable(titulo);
-            _self.esNuevo = ko.pureComputed(function() {
+            _self.esNuevo = ko.pureComputed(function () {
                 return _self.id() === 0;
             })
         }
