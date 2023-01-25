@@ -63,14 +63,17 @@ builder.Services.AddLocalization(opciones =>
 {
     opciones.ResourcesPath = "Resources";
 });
- 
+
 builder.Services.AddTransient<IServicioUsuarios, ServicioUsuarios>();
+
+// configuración de automapper
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
 //var culturasUISoportadas = new[] { "es", "en" };
 
-  
+
 app.UseRequestLocalization(opciones =>
 {
     opciones.DefaultRequestCulture = new RequestCulture("es");

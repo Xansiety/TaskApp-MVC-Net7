@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskApp.Entidades;
 using TaskApp.Models.DTO;
@@ -12,11 +14,13 @@ namespace TaskApp.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IServicioUsuarios servicioUsuarios;
+        private readonly IMapper mapper;
 
-        public TareasController(ApplicationDbContext context, IServicioUsuarios servicioUsuarios)
+        public TareasController(ApplicationDbContext context, IServicioUsuarios servicioUsuarios, IMapper mapper)
         {
             this.context = context;
             this.servicioUsuarios = servicioUsuarios;
+            this.mapper = mapper;
         }
 
 
@@ -56,13 +60,9 @@ namespace TaskApp.Controllers
 
             var tareas = await context.Tareas.Where(x => x.UsuarioCreacionId == usuarioId)
                 .OrderBy(x => x.Orden)
-                .Select(x => new TareaDTO
-                {
-                    Id = x.Id,
-                    Titulo = x.Titulo
-                })
+                .ProjectTo<TareaDTO>(mapper.ConfigurationProvider)
                 .ToListAsync();
-
+            
             return tareas;
         }
 
