@@ -2,26 +2,77 @@
 @inject IViewLocalizer localizer
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Listado de tareas";
 }
 
 <div class="text-center">
-    <h1 class="display-4">@localizer["Bienvenido"]</h1>
-    <p>
-        @localizer["Aprende más sobre"] <a href="https://docs.microsoft.com/aspnet/core">@localizer["ASP.NET Core"]</a>
-    </p>
+    <h1 class="display-4">@localizer["Mis tareas"]</h1>
+
+    <button type="button" class="btn btn-primary mb-3" onclick="agregarNuevaTareaAlListado()">@localizer["Agregar nueva tarea"]</button>
 </div>
 
-<div>
-    <h3> @ViewBag.Saludo, Xansiety</h3>
+<div id="contenedor-listado-tareas" class="text-center">
+    <div class="text-start" data-bind="foreach: tareas">
+        <div name="tarea" class="border mb-2 p-2" style="cursor: pointer">
+            <div data-bind="text: titulo, hidden: esNuevo " class="fw-bold"></div>
+            <input type="text" name="titulo-tarea" autocomplete="off" data-bind="value: titulo, visible: esNuevo, event: { focusout: manejarFocusOutTituloTarea}" />
+        </div>
+    </div>
+
+    <div data-bind="visible: cargando" class="spinner-border">
+        <span class="visually-hidden">Cargando..</span>
+    </div>
+
+    <div data-bind="visible: noHayTareas">
+        No existen tareas para mostrar
+    </div>
+
 </div>
 
-
-<button onclick="mostrarError()">
-    Mostrar mensaje de error
-</button>
 
 
 @section Scripts {
-    <script src="~/js/Utilidades.js"></script>
+
+    <script asp-asp-append-version="true" src="~/js/Tareas.js"></script>
+    
+    <script>
+
+        const UrlTareas = '/api/Tareas';
+
+        function tareasListadoViewModelFn() {
+            var _self = this;
+            _self.tareas = ko.observableArray([ 
+            ]); // Iniciar el array de tareas en un valor observable
+            _self.cargando= ko.observable(true);
+
+            _self.noHayTareas = ko.pureComputed(function() {
+                if(_self.cargando()) {
+                    return false;
+                }                   
+                return _self.tareas().length === 0;
+            })
+        } 
+
+
+        function tareaElementoListadoViewModel({id, titulo}){
+            var _self = this;
+            _self.id = ko.observable(id);
+            _self.titulo = ko.observable(titulo);
+            _self.esNuevo = ko.pureComputed(function() {
+                return _self.id() === 0;
+            })
+        }
+
+        const tareasListadoViewModel = new tareasListadoViewModelFn();
+
+        //setTimeout(() => {
+        //    //tareasListadoViewModel.tareas.push({titulo: 'Tarea 1'});
+        //    tareasListadoViewModel.cargando(false)
+        //},100)
+
+        ObtenerTareas();
+
+
+        ko.applyBindings(tareasListadoViewModel, document.getElementById("contenedor-listado-tareas"));
+    </script>
 }
