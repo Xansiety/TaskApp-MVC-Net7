@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using TaskApp;
+using TaskApp.Servicios;
 using TaskApp.Servicios.Constantes.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +63,8 @@ builder.Services.AddLocalization(opciones =>
 {
     opciones.ResourcesPath = "Resources";
 });
+ 
+builder.Services.AddTransient<IServicioUsuarios, ServicioUsuarios>();
 
 var app = builder.Build();
 

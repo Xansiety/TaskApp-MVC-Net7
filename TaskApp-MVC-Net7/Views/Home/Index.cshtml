@@ -36,6 +36,9 @@
     <script asp-asp-append-version="true" src="~/js/Tareas.js"></script>
     
     <script>
+
+        const UrlTareas = '/api/Tareas';
+
         function tareasListadoViewModelFn() {
             var _self = this;
             _self.tareas = ko.observableArray([ 
@@ -62,10 +65,12 @@
 
         const tareasListadoViewModel = new tareasListadoViewModelFn();
 
-        setTimeout(() => {
-            //tareasListadoViewModel.tareas.push({titulo: 'Tarea 1'});
-            tareasListadoViewModel.cargando(false)
-        },100)
+        //setTimeout(() => {
+        //    //tareasListadoViewModel.tareas.push({titulo: 'Tarea 1'});
+        //    tareasListadoViewModel.cargando(false)
+        //},100)
+
+        ObtenerTareas();
 
 
         ko.applyBindings(tareasListadoViewModel, document.getElementById("contenedor-listado-tareas"));
