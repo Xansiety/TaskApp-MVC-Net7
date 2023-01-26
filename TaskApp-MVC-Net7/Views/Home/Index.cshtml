@@ -35,12 +35,14 @@
 
 @section Scripts {
 
-    <script asp-asp-append-version="true" src="~/js/Utilidades.js"></script>
-    <script asp-asp-append-version="true" src="~/js/Tareas.js"></script>
+    <script asp-append-version="true" src="~/js/Utilidades.js"></script>
+    <script asp-append-version="true" src="~/js/Tareas.js"></script>
+    <script asp-append-version="true" src="~/js/Pasos.js"></script>
 
     <script>
-          
+
         const UrlTareas = '/api/Tareas';
+        const urlPasos = '/api/pasos';
 
         const modalEditarTarea = document.getElementById('modal-editar-tarea');
         const modalEditarTareaBootstrap = new bootstrap.Modal(modalEditarTarea);
@@ -58,7 +60,7 @@
                 return _self.tareas().length === 0;
             })
         }
-         
+
         function tareaElementoListadoViewModel({ id, titulo }) {
             var _self = this;
             _self.id = ko.observable(id);
@@ -71,10 +73,25 @@
         const tareaEditarVM = {
             id: 0,
             titulo: ko.observable(''),
-            descripcion: ko.observable('')
+            descripcion: ko.observable(''),
+            pasos: ko.observableArray([])
         }
-          
-        const tareasListadoViewModel = new tareasListadoViewModelFn(); 
+
+        const tareasListadoViewModel = new tareasListadoViewModelFn();
+
+
+        function pasoViewModel({ id, descripcion, realizado, modoEdicion }) {
+            var _self = this;
+            _self.id = ko.observable(id || 0);
+            _self.descripcion = ko.observable(descripcion || '');
+            _self.descripcionAnterior = '';
+            _self.realizado = ko.observable(realizado);
+            _self.modoEdicion = ko.observable(modoEdicion);
+            _self.esNuevo = ko.pureComputed(function () {
+                return _self.id() == 0;
+            })
+        }
+
 
         ObtenerTareas();
 
