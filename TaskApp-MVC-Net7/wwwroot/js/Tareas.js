@@ -52,8 +52,10 @@ async function ObtenerTareas() {
 
     tareasListadoViewModel.tareas([]);
 
+    console.log(tareas)
 
     tareas.forEach(tarea => {
+        console.log(tarea)
         tareasListadoViewModel.tareas.push(new tareaElementoListadoViewModel(tarea));
     })
 
@@ -112,13 +114,21 @@ async function manejarClickTarea(tarea) {
         return;
     }
 
-    const { id, titulo, descripcion } = await respuesta.json();
+    const {  id, titulo, descripcion, pasos } = await respuesta.json();
 
-    console.log({ id, titulo, descripcion });
+    //console.log(reposne);
 
     tareaEditarVM.id = id;
     tareaEditarVM.titulo(titulo);
     tareaEditarVM.descripcion(descripcion);
+
+
+    tareaEditarVM.pasos([]);
+
+    pasos.forEach(item => {
+        tareaEditarVM.pasos.push(new pasoViewModel({...item, modoEdicion: false}))
+    })
+
 
     modalEditarTareaBootstrap.show();
 

@@ -90,7 +90,7 @@ async function actualizarPaso(data, id) {
             'Content-Type': 'application/json'
         }
     });
-
+      
     if (!respuesta.ok) {
         manejarErrorApi(respuesta);
     }
@@ -123,7 +123,7 @@ function manejarClickCheckboxPaso(paso) {
 function manejarClickBorrarPaso(paso) {
     modalEditarTareaBootstrap.hide();
     confirmarAccion({
-        callbackAceptar: () => {
+        callBackAceptar: () => {
             borrarPaso(paso);
             modalEditarTareaBootstrap.show();
         },

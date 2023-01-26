@@ -71,13 +71,13 @@
             })
         }
 
-        function tareaElementoListadoViewModel({ id, titulo, pasosTotal, pasosRealizados }) {
+        function tareaElementoListadoViewModel({ id, titulo, pasosTotal, pasosCompletados }) {
             var _self = this;
             _self.id = ko.observable(id);
             _self.titulo = ko.observable(titulo);
 
             _self.pasosTotal = ko.observable(pasosTotal);
-            _self.pasosRealizados = ko.observable(pasosRealizados);
+            _self.pasosRealizados = ko.observable(pasosCompletados);
 
             _self.esNuevo = ko.pureComputed(function () {
                 return _self.id() === 0;
@@ -99,12 +99,12 @@
         const tareasListadoViewModel = new tareasListadoViewModelFn();
 
 
-        function pasoViewModel({ id, descripcion, realizado, modoEdicion }) {
+        function pasoViewModel({ id, descripcion, completado, modoEdicion }) {
             var _self = this;
             _self.id = ko.observable(id || 0);
             _self.descripcion = ko.observable(descripcion || '');
             _self.descripcionAnterior = '';
-            _self.realizado = ko.observable(realizado);
+            _self.realizado = ko.observable(completado);
             _self.modoEdicion = ko.observable(modoEdicion);
             _self.esNuevo = ko.pureComputed(function () {
                 return _self.id() == 0;

@@ -8,7 +8,9 @@ namespace TaskApp.Servicios.AutoMapperProfiles
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Tarea, TareaDTO>();
+            CreateMap<Tarea, TareaDTO>()
+            .ForMember(dest => dest.PasosCompletados, opt => opt.MapFrom(src => src.Pasos.Count(x => x.Completado)))
+            .ForMember(dest => dest.PasosTotal, opt => opt.MapFrom(src => src.Pasos.Count));
         }
     }
 }
