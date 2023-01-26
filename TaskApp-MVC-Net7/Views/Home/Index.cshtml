@@ -13,7 +13,7 @@
 
 <div id="contenedor-listado-tareas" class="text-center">
     <div id="reordenable" class="text-start" data-bind="foreach: tareas">
-        <div name="tarea" class="border mb-2 p-2" style="cursor: pointer">
+        <div name="tarea" class="border mb-2 p-2" style="cursor: pointer" data-bind="click: manejarClickTarea">
             <div data-bind="text: titulo, hidden: esNuevo " class="fw-bold"></div>
             <input type="text" name="titulo-tarea" autocomplete="off" data-bind="value: titulo, visible: esNuevo,
                 attr: {'data-id': id}, event: { focusout: manejarFocusOutTituloTarea}" />
@@ -31,6 +31,7 @@
 </div>
 
 
+<partial name="_ModalEditarTarea" />
 
 @section Scripts {
 
@@ -38,8 +39,11 @@
     <script asp-asp-append-version="true" src="~/js/Tareas.js"></script>
 
     <script>
-
+          
         const UrlTareas = '/api/Tareas';
+
+        const modalEditarTarea = document.getElementById('modal-editar-tarea');
+        const modalEditarTareaBootstrap = new bootstrap.Modal(modalEditarTarea);
 
         function tareasListadoViewModelFn() {
             var _self = this;
@@ -54,8 +58,7 @@
                 return _self.tareas().length === 0;
             })
         }
-
-
+         
         function tareaElementoListadoViewModel({ id, titulo }) {
             var _self = this;
             _self.id = ko.observable(id);
@@ -65,16 +68,20 @@
             })
         }
 
-        const tareasListadoViewModel = new tareasListadoViewModelFn();
-
-        //setTimeout(() => {
-        //    //tareasListadoViewModel.tareas.push({titulo: 'Tarea 1'});
-        //    tareasListadoViewModel.cargando(false)
-        //},100)
+        const tareaEditarVM = {
+            id: 0,
+            titulo: ko.observable(''),
+            descripcion: ko.observable('')
+        }
+          
+        const tareasListadoViewModel = new tareasListadoViewModelFn(); 
 
         ObtenerTareas();
 
 
         ko.applyBindings(tareasListadoViewModel, document.getElementById("contenedor-listado-tareas"));
+        ko.applyBindings(tareaEditarVM, document.getElementById('modal-editar-tarea'));
+
+
     </script>
 }

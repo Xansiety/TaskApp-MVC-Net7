@@ -95,6 +95,108 @@ async function enviarIdsTareasAlBackend(ids) {
 }
 
 
+async function manejarClickTarea(tarea) {
+    if (tarea.esNuevo()) {
+        return;
+    }
+
+    const respuesta = await fetch(`${UrlTareas}/${tarea.id()}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (!respuesta.ok) {
+        manejarErrorApi(respuesta);
+        return;
+    }
+
+    const { id, titulo, descripcion } = await respuesta.json();
+
+    console.log({ id, titulo, descripcion });
+
+    tareaEditarVM.id = id;
+    tareaEditarVM.titulo(titulo);
+    tareaEditarVM.descripcion(descripcion);
+
+    modalEditarTareaBootstrap.show();
+
+}
+
+
+async function manejarCambioEditarTarea() {
+    const obj = {
+        id: tareaEditarVM.id,
+        titulo: tareaEditarVM.titulo(),
+        descripcion: tareaEditarVM.descripcion()
+    };
+
+    if (!obj.titulo) {
+        return;
+    }
+
+    await editarTareaCompleta(obj);
+
+    const indice = tareasListadoViewModel.tareas().findIndex(t => t.id() === obj.id);
+    const tarea = tareasListadoViewModel.tareas()[indice];
+    tarea.titulo(obj.titulo);
+}
+
+
+async function editarTareaCompleta(tarea) {
+    const data = JSON.stringify(tarea);
+
+    const respuesta = await fetch(`${UrlTareas}/${tarea.id}`, {
+        method: 'PUT',
+        body: data,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (!respuesta.ok) {
+        manejarErrorApi(respuesta);
+        throw "error";
+    }
+}
+
+
+function intentarBorrarTarea(tarea) {
+    modalEditarTareaBootstrap.hide();
+
+    confirmarAccion({
+        callBackAceptar: () => {
+            borrarTarea(tarea);
+        },
+        callbackCancelar: () => {
+            modalEditarTareaBootstrap.show();
+        },
+        titulo: `¿Desea borrar la tarea ${tarea.titulo()}?`
+    })
+
+}
+
+async function borrarTarea(tarea) {
+    const idTarea = tarea.id;
+
+    const respuesta = await fetch(`${UrlTareas}/${idTarea}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (respuesta.ok) {
+        const indice = obtenerIndiceTareaEnEdicion();
+        tareasListadoViewModel.tareas.splice(indice, 1);
+    }
+}
+
+function obtenerIndiceTareaEnEdicion() {
+    return tareasListadoViewModel.tareas().findIndex(t => t.id() == tareaEditarVM.id);
+}
+
 $(function () {
     $("#reordenable").sortable({
         axis: 'y',
