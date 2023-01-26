@@ -73,6 +73,8 @@ builder.Services.AddTransient<IServicioUsuarios, ServicioUsuarios>();
 
 // configuración de automapper
 builder.Services.AddAutoMapper(typeof(Program));
+// Configuración cargar archivos
+builder.Services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
 
 var app = builder.Build();
 

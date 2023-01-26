@@ -75,6 +75,7 @@ namespace TaskApp.Controllers
 
             var tarea = await context.Tareas
                 .Include(t => t.Pasos.OrderBy(p => p.Orden))
+                .Include(t => t.ArchivoAjuntos.OrderBy(a => a.Orden))
                 .FirstOrDefaultAsync(t => t.Id == id && t.UsuarioCreacionId == usuarioId);
 
             if (tarea is null)
