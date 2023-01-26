@@ -25,13 +25,13 @@ async function manejarSeleccionArchivoTarea(event) {
     }
 
     const json = await respuesta.json();
-    prepararArchivosAdjuntos(json);
+    prepararArchivoAjuntos(json);
 
     inputArchivoTarea.value = null;
 }
 
-function prepararArchivosAdjuntos(archivosAdjuntos) {
-    archivosAdjuntos.forEach(archivoAdjunto => {
+function prepararArchivoAjuntos(ArchivoAjuntos) {
+    ArchivoAjuntos.forEach(archivoAdjunto => {
         let fechaCreacion = archivoAdjunto.fechaCreacion;
         if (archivoAdjunto.fechaCreacion.indexOf('Z') === -1) {
             fechaCreacion += 'Z';
@@ -83,7 +83,7 @@ function manejarClickBorrarArchivoAdjunto(archivoAdjunto) {
     modalEditarTareaBootstrap.hide();
 
     confirmarAccion({
-        callbackAceptar: () => {
+        callBackAceptar: () => {
             borrarArchivoAdjunto(archivoAdjunto);
             modalEditarTareaBootstrap.show();
         },

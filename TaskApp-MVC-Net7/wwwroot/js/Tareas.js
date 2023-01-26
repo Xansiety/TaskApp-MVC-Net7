@@ -114,7 +114,7 @@ async function manejarClickTarea(tarea) {
         return;
     }
 
-    const {  id, titulo, descripcion, pasos } = await respuesta.json();
+    const { id, titulo, descripcion, pasos, archivoAjuntos } = await respuesta.json();
 
     //console.log(reposne);
 
@@ -128,7 +128,8 @@ async function manejarClickTarea(tarea) {
     pasos.forEach(item => {
         tareaEditarVM.pasos.push(new pasoViewModel({...item, modoEdicion: false}))
     })
-
+     
+    prepararArchivoAjuntos(archivoAjuntos);
 
     modalEditarTareaBootstrap.show();
 
