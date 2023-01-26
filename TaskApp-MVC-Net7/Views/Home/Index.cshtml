@@ -48,6 +48,7 @@
     <script asp-append-version="true" src="~/js/Utilidades.js"></script>
     <script asp-append-version="true" src="~/js/Tareas.js"></script>
     <script asp-append-version="true" src="~/js/Pasos.js"></script>
+    <script asp-append-version="true" src="~/js/ArchivosAdjuntos.js"></script>
 
     <script>
 
@@ -93,7 +94,8 @@
             id: 0,
             titulo: ko.observable(''),
             descripcion: ko.observable(''),
-            pasos: ko.observableArray([])
+            pasos: ko.observableArray([]),
+            archivosAdjuntos: ko.observableArray([]),
         }
 
         const tareasListadoViewModel = new tareasListadoViewModelFn();
