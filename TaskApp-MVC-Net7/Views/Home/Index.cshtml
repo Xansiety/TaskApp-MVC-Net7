@@ -15,6 +15,16 @@
     <div id="reordenable" class="text-start" data-bind="foreach: tareas">
         <div name="tarea" class="border mb-2 p-2" style="cursor: pointer" data-bind="click: manejarClickTarea">
             <div data-bind="text: titulo, hidden: esNuevo " class="fw-bold"></div>
+
+             <div name="pasos-resumen" data-bind="visible: pasosTotal() > 0">
+                <span data-bind="text: pasosRealizados">
+                </span>/<span data-bind="text: pasosTotal">
+                </span>
+                <span data-bind="text: porcentajeCompletado">
+
+                </span>
+            </div>
+
             <input type="text" name="titulo-tarea" autocomplete="off" data-bind="value: titulo, visible: esNuevo,
                 attr: {'data-id': id}, event: { focusout: manejarFocusOutTituloTarea}" />
         </div>
@@ -35,12 +45,14 @@
 
 @section Scripts {
 
-    <script asp-asp-append-version="true" src="~/js/Utilidades.js"></script>
-    <script asp-asp-append-version="true" src="~/js/Tareas.js"></script>
+    <script asp-append-version="true" src="~/js/Utilidades.js"></script>
+    <script asp-append-version="true" src="~/js/Tareas.js"></script>
+    <script asp-append-version="true" src="~/js/Pasos.js"></script>
 
     <script>
-          
+
         const UrlTareas = '/api/Tareas';
+        const urlPasos = '/api/pasos';
 
         const modalEditarTarea = document.getElementById('modal-editar-tarea');
         const modalEditarTareaBootstrap = new bootstrap.Modal(modalEditarTarea);
@@ -58,23 +70,47 @@
                 return _self.tareas().length === 0;
             })
         }
-         
-        function tareaElementoListadoViewModel({ id, titulo }) {
+
+        function tareaElementoListadoViewModel({ id, titulo, pasosTotal, pasosCompletados }) {
             var _self = this;
             _self.id = ko.observable(id);
             _self.titulo = ko.observable(titulo);
+
+            _self.pasosTotal = ko.observable(pasosTotal);
+            _self.pasosRealizados = ko.observable(pasosCompletados);
+
             _self.esNuevo = ko.pureComputed(function () {
                 return _self.id() === 0;
             })
+
+            self.porcentajeCompletado = ko.pureComputed(function(){
+                const calculo = Math.round(_self.pasosRealizados() * 1.0 / _self.pasosTotal() * 100);
+                return `(${calculo}%)`;
+            });
         }
 
         const tareaEditarVM = {
             id: 0,
             titulo: ko.observable(''),
-            descripcion: ko.observable('')
+            descripcion: ko.observable(''),
+            pasos: ko.observableArray([])
         }
-          
-        const tareasListadoViewModel = new tareasListadoViewModelFn(); 
+
+        const tareasListadoViewModel = new tareasListadoViewModelFn();
+
+
+        function pasoViewModel({ id, descripcion, completado, modoEdicion }) {
+            var _self = this;
+            _self.id = ko.observable(id || 0);
+            _self.descripcion = ko.observable(descripcion || '');
+            _self.descripcionAnterior = '';
+            _self.realizado = ko.observable(completado);
+            _self.modoEdicion = ko.observable(modoEdicion);
+            _self.esNuevo = ko.pureComputed(function () {
+                return _self.id() == 0;
+            })
+        }
+
 
         ObtenerTareas();
 
