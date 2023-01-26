@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using System.Text.Json.Serialization;
 using TaskApp;
 using TaskApp.Servicios;
 using TaskApp.Servicios.Constantes.Auth;
@@ -29,7 +30,11 @@ builder.Services.AddControllersWithViews(opciones =>
    .AddDataAnnotationsLocalization(opciones =>
    {
        opciones.DataAnnotationLocalizerProvider = (_, factoria) => factoria.Create(typeof(RecursoCompartido)); // utilizar un único archivo de recursos
-   });
+   })
+   .AddJsonOptions(opt =>
+   {
+       opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; // Ignorar las referencias cíclicas, por ejemplo Tareas Tiene Pasos , Pasos tienen una tarea
+   }); 
 
 // DB Service
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

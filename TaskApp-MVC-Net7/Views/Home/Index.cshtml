@@ -15,6 +15,16 @@
     <div id="reordenable" class="text-start" data-bind="foreach: tareas">
         <div name="tarea" class="border mb-2 p-2" style="cursor: pointer" data-bind="click: manejarClickTarea">
             <div data-bind="text: titulo, hidden: esNuevo " class="fw-bold"></div>
+
+             <div name="pasos-resumen" data-bind="visible: pasosTotal() > 0">
+                <span data-bind="text: pasosRealizados">
+                </span>/<span data-bind="text: pasosTotal">
+                </span>
+                <span data-bind="text: porcentajeCompletado">
+
+                </span>
+            </div>
+
             <input type="text" name="titulo-tarea" autocomplete="off" data-bind="value: titulo, visible: esNuevo,
                 attr: {'data-id': id}, event: { focusout: manejarFocusOutTituloTarea}" />
         </div>
@@ -61,13 +71,22 @@
             })
         }
 
-        function tareaElementoListadoViewModel({ id, titulo }) {
+        function tareaElementoListadoViewModel({ id, titulo, pasosTotal, pasosRealizados }) {
             var _self = this;
             _self.id = ko.observable(id);
             _self.titulo = ko.observable(titulo);
+
+            _self.pasosTotal = ko.observable(pasosTotal);
+            _self.pasosRealizados = ko.observable(pasosRealizados);
+
             _self.esNuevo = ko.pureComputed(function () {
                 return _self.id() === 0;
             })
+
+            self.porcentajeCompletado = ko.pureComputed(function(){
+                const calculo = Math.round(_self.pasosRealizados() * 1.0 / _self.pasosTotal() * 100);
+                return `(${calculo}%)`;
+            });
         }
 
         const tareaEditarVM = {
